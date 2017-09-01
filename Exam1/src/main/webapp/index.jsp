@@ -14,7 +14,37 @@ pageEncoding="UTF-8"%>
         <!--简体中文-->
         <script src="js/locales/zh.js" type="text/javascript"></script>
         <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    </head>
+<script>
+	$(function() {
+		//给修改按钮绑定事件
+		$("#update").click(function() {
+			var roleids = $("input[id=roleids]:checked");
+			if (roleids.length == 1) {
+				//提交表单
+				var f1 = $("#f1");
+				f1.attr("action", "xiazai");
+				f1.submit();
+				return true;
+			} else {
+				alert("必须选自一个（只能有一个）进行修改");
+				return false;
+			}
+		});
+		$("#sub").click(
+			function() {
+				// 请求的URL ,请求的内容，回调函数
+				$.get("chakan",function(data) {
+				var html = "";
+				$.each(data,function(index,value) {
+				var va = value;
+				html += '<tr><td><input type="checkbox" id="roleids" value="'+va+'" name="name"/>'+ va+ '</td></tr>';
+						});
+				$("#ta").html(html);
+					});
+				});
+			})
+</script>
+</head>
     <body>
             <div class="htmleaf-container">
                 <div class="container kv-main">
@@ -27,7 +57,17 @@ pageEncoding="UTF-8"%>
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="reset" class="btn btn-default">Reset</button>
                     </form>
-                    <hr>
+                    <br>
+						<input type="button" value="下载列表" id="sub" class="btn btn-primary">
+					<br>
+				<form action="xiazai" id="f1" method="post">
+					<br>
+					<table id="ta">
+						
+					</table>
+					<input type="submit" value="下载" id="update" class="btn btn-primary">
+				</form>
+				<hr>
                 </div>
             </div>
     </body>
