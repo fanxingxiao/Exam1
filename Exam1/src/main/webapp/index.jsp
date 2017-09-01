@@ -30,6 +30,19 @@ pageEncoding="UTF-8"%>
 				return false;
 			}
 		});
+		$("#delete").click(function() {
+			var roleids = $("input[id=roleids]:checked");
+			if (roleids.length == 1) {
+				//提交表单
+				var f1 = $("#f2");
+				f1.attr("action", "shanchu");
+				f1.submit();
+				return true;
+			} else {
+				alert("必须选自一个（只能有一个）进行删除");
+				return false;
+			}
+		});
 		$("#sub").click(
 			function() {
 				// 请求的URL ,请求的内容，回调函数
@@ -40,6 +53,18 @@ pageEncoding="UTF-8"%>
 				html += '<tr><td><input type="checkbox" id="roleids" value="'+va+'" name="name"/>'+ va+ '</td></tr>';
 						});
 				$("#ta").html(html);
+					});
+				});
+		$("#sub1").click(
+			function() {
+				// 请求的URL ,请求的内容，回调函数
+				$.get("chakan",function(data) {
+				var html = "";
+				$.each(data,function(index,value) {
+				var va = value;
+				html += '<tr><td><input type="checkbox" id="roleids" value="'+va+'" name="name"/>'+ va+ '</td></tr>';
+						});
+				$("#ta1").html(html);
 					});
 				});
 			})
@@ -58,14 +83,24 @@ pageEncoding="UTF-8"%>
                         <button type="reset" class="btn btn-default">Reset</button>
                     </form>
                     <br>
-						<input type="button" value="下载列表" id="sub" class="btn btn-primary">
+                        <button class="btn btn-primary" id="sub">下载列表</button>
 					<br>
 				<form action="xiazai" id="f1" method="post">
-					<br>
 					<table id="ta">
 						
 					</table>
+					<br>
 					<input type="submit" value="下载" id="update" class="btn btn-primary">
+				</form>
+				<br>
+                       <button class="btn btn-primary" id="sub1">删除列表</button>
+				<br>
+				<form action="shanchu" id="f2" method="post">
+					<table id="ta1">
+						
+					</table>
+					<br>
+					<input type="submit" value="删除" id="delete" class="btn btn-primary">
 				</form>
 				<hr>
                 </div>

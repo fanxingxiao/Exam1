@@ -107,14 +107,15 @@ public class HdfsTest {
 		fileSystem.close();
 		return "fail1";
 	}
-//	@RequestMapping("shanchu")
-	public String test005() throws Exception{
+	@RequestMapping("shanchu")
+	public String test005(String name) throws Exception{
+		System.out.println(name);
 		FileSystem fileSystem = FileSystem.get(new URI("hdfs://centos201:9000"),new Configuration(),"centos");
 		//删除
-		fileSystem.delete(new Path("hdfs://centos201:9000/apache-maven-3.3.9-bin.zip"),true);
+		fileSystem.delete(new Path("hdfs://centos201:9000/user/word/in/"+name),true);
 		//查看是否删除
-		printLsR(fileSystem, new Path("/"));
-		return "";
+//		printLsR(fileSystem, new Path("/"));
+		return "fail2";
 	}
 	
 }
