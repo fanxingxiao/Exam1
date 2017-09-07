@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
-        <title>Krajee JQuery Plugins - &copy; Kartik</title>
+        <title>分布式文件系统</title>
         <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/default.css">
         <link href="css/fileinput.css" media="all" rel="stylesheet" type="text/css" />

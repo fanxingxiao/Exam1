@@ -44,13 +44,6 @@ public class HdfsTest {
 		return list;
 	}
 	
-	//hdfs dfs -ls /
-	public void printLs(FileSystem fileSystem,String path) throws Exception{
-		FileStatus[] liStatus = fileSystem.listStatus(new Path(path));
-		for(FileStatus fileStatus:liStatus){
-			System.out.println(fileStatus);
-		}
-	}
 	//hdfs dfs -ls -R /
 	public void printLsR(FileSystem fileSystem,Path path) throws Exception{
 		FileStatus[] liStatus = fileSystem.listStatus(path);
@@ -75,17 +68,28 @@ public class HdfsTest {
 		//获得文件的名字
 		
 		String filename = file.getOriginalFilename();
-
-		//创建文件的上传路径
 		
-		String filepath=request.getSession().getServletContext().getRealPath("/upload");
-		File uploadfile = new File(filepath+"/"+filename);
-		try {
-			file.transferTo(uploadfile);
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("上传完成");
+		File dir = new File("/home/centos/tomcat/webapps/exam/upload");
+		 if (dir.exists()) {
+			 if (dir.isDirectory()) {
+                System.out.println("文件夹已存在");
+           } else {
+                 System.out.println("同名文件存在，无法创建目录");
+             }
+         } else {
+             System.out.println("目录不存在，创建它…");
+             dir.mkdir();
+             
+           //创建文件的上传路径
+     		String filepath=request.getSession().getServletContext().getRealPath("/upload");
+     		File uploadfile = new File(filepath+"/"+filename);
+     		try {
+     			file.transferTo(uploadfile);
+     		} catch (IllegalStateException | IOException e) {
+     			e.printStackTrace();
+     		}
+     		System.out.println("上传完成");
+         }
 		return test003(filename);
 	}
 	
@@ -93,7 +97,7 @@ public class HdfsTest {
 		FileSystem fileSystem = FileSystem.get(new URI("hdfs://centos201:9000"),new Configuration(),"centos");
 		
 		//上传,从本地文件系统传到hdfs系统
-		fileSystem.copyFromLocalFile(new Path("D:\\apache-tomcat-7.0.75\\wtpwebapps\\Exam1\\upload\\"+str), new Path("/user/word/in"));
+		fileSystem.copyFromLocalFile(new Path("/home/centos/tomcat/webapps/exam/upload/"+str), new Path("/user/word/in"));
 		
 		//查看是否上传
 //		printLsR(fileSystem, new Path("/"));
@@ -103,7 +107,7 @@ public class HdfsTest {
 	public String test004(String name) throws Exception{
 		FileSystem fileSystem = FileSystem.get(new URI("hdfs://centos201:9000"),new Configuration(),"centos");
 		//下载,从本地文件系统传到hdfs系统
-		fileSystem.copyToLocalFile(new Path("hdfs://centos201:9000/user/word/in/"+name), new Path("e:\\test\\hdfsTest\\"+name));
+		fileSystem.copyToLocalFile(new Path("hdfs://centos201:9000/user/word/in/"+name), new Path("/home/centos/hdfs/"+name));
 		fileSystem.close();
 		return "fail1";
 	}
